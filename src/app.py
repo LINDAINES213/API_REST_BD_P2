@@ -20,6 +20,7 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
+
 ##CORS(app, resources={"*":{"origins": "http://localhost:3000"}})
 
 def page_not_found(error):
