@@ -4,7 +4,7 @@ from models.entities.User import User
 from models.UserModel import UserModel
 import uuid
 
-main = Blueprint('movie_blueprint', __name__)
+main = Blueprint('user_blueprint', __name__)
 
 @main.route('/signup', methods=['POST'])
 def signup():

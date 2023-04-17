@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_cors import CORS
 from config import config
 from flask_login import LoginManager
@@ -6,8 +6,7 @@ from flask_login import LoginManager
 
 #Routes
 
-from routes import Paciente
-from models.entities.User import User
+from routes import User
 
 app = Flask(__name__)
 
@@ -30,7 +29,7 @@ if __name__ == '__main__':
     app.config.from_object(config['development'])
 
     # Blueprints 
-    app.register_blueprint(Paciente.main, url_prefix='/api/users')
+    app.register_blueprint(User.main, url_prefix='/api/users')
 
     #Error handlers
     app.register_error_handler(404, page_not_found)
