@@ -1,37 +1,78 @@
-from flask import Flask, render_template
-from flask_cors import CORS
+from flask import Flask, render_template, request, redirect, url_for, flash
+from flask_wtf.csrf import CSRFProtect
+from flask_login import LoginManager, login_user, logout_user, login_required
+from database.db import get_connection
+
 from config import config
-from flask_login import LoginManager
 
+# Models:
+from models.ModelUser import ModelUser
 
-#Routes
-
-from routes import User
+# Entities:
+from models.entities.User import User
 
 app = Flask(__name__)
 
-app.secret_key = 'supersecretkey'
+csrf = CSRFProtect()
+connection = get_connection()
+login_manager_app = LoginManager(app)
 
-login_manager = LoginManager()
-login_manager.init_app(app)
+@login_manager_app.user_loader
+def load_user(id):
+    return ModelUser.get_by_id(connection, id)
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
+@app.route('/')
+def index():
+    return redirect(url_for('login'))
 
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        user = User(0, request.form['email'], request.form['password'])
+        logged_user = ModelUser.login(connection, user)
+        if logged_user != None:
+            if logged_user.password:
+                login_user(logged_user)
+                return redirect(url_for('home'))
+            else:
+                flash("Invalid password...")
+                return render_template('auth/index.html')
+        else:
+            flash("Contrasena o usuario incorrectos...")
+            return render_template('auth/index.html')
+    else:
+        return render_template('auth/index.html')
 
-##CORS(app, resources={"*":{"origins": "http://localhost:3000"}})
 
-def page_not_found(error):
-    return "<h1>Not found page</h1>", 404
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
+
+@app.route('/home')
+def home():
+    return render_template('home.html')
+
+
+@app.route('/protected')
+@login_required
+def protected():
+    return "<h1>Esta es una vista protegida, solo para usuarios autenticados.</h1>"
+
+
+def status_401(error):
+    return redirect(url_for('login'))
+
+
+def status_404(error):
+    return "<h1>Página no encontrada</h1>", 404
+
 
 if __name__ == '__main__':
     app.config.from_object(config['development'])
-
-    # Blueprints 
-    app.register_blueprint(User.main, url_prefix='/api/users')
-
-    #Error handlers
-    app.register_error_handler(404, page_not_found)
+    csrf.init_app(app)
+    app.register_error_handler(401, status_401)
+    app.register_error_handler(404, status_404)
     app.run()

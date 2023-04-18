@@ -5,7 +5,7 @@ from models.entities.Paciente import Paciente
 from models.PacienteModel import PacienteModel
 
 
-main = Blueprint('movie_blueprint', __name__)
+main = Blueprint('paciente_blueprint', __name__)
 
 @main.route('/')
 def get_pacientes():

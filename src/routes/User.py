@@ -1,23 +1,23 @@
-from flask_login import login_user, logout_user, login_required
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, session
+from database.db import get_connection
 from models.entities.User import User
-from models.UserModel import UserModel
-import uuid
+from models.ModelUser import UserModel
+from werkzeug.security import check_password_hash
 
-main = Blueprint('user_blueprint', __name__)
+
+main = Blueprint('paciente_blueprint', __name__)
 
 @main.route('/signup', methods=['POST'])
 def signup():
     # Aquí se debe escribir el código para registrar a un nuevo usuario en la base de datos
     try:
         email = request.json['email']
-        nombre = request.json['nombre']
-        apellido=request.json['apellido']        
+        username = request.json['username']
         contrasena = request.json['contrasena']
 
-        usuario = User(email, nombre, apellido, contrasena)
+        usuario = User(email, username, contrasena)
         
-        affected_rows = UserModel.add_user(usuario)
+        affected_rows = UserModel.signup(usuario)
 
         if affected_rows == 1:
             return jsonify({'message': 'El usuario ha sido registrado exitosamente.'}), 201
@@ -26,26 +26,3 @@ def signup():
         ############# validar datos ######################
     except Exception as ex:
         return jsonify({'message': str(ex)}), 500
-
-@main.route('/login', methods=['POST'])
-def login():
-    email = request.json.get('email', None)
-    password = request.json.get('password', None)
-
-    # Verifica las credenciales de inicio de sesión
-    user = User.query.filter_by(email=email).first()
-    if user is None or not user.check_password(password):
-        return jsonify({'message': 'Credenciales inválidas.'}), 401
-
-    # Inicia sesión con Flask-Login
-    login_user(user)
-
-    return jsonify({'message': 'Sesión iniciada exitosamente.'}), 200
-
-@main.route('/logout')
-@login_required
-def logout():
-    # Cierra la sesión con Flask-Login
-    logout_user()
-
-    return jsonify({'message': 'Sesión cerrada exitosamente.'}), 200
