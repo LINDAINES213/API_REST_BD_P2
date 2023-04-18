@@ -20,6 +20,24 @@ class ModelUser():
         except Exception as ex:
             raise Exception(ex)
         
+    
+    @classmethod
+    def signin(self, usuario):
+        try:
+            connection = get_connection()
+
+            with connection.cursor() as cursor:
+                cursor.execute("""INSERT INTO usuario (email, password, username)
+                                VALUES (%s, %s, %s)""", (usuario.email, usuario.password, usuario.username))
+                affected_rows = cursor.rowcount
+                connection.commit()
+
+            
+
+            connection.close()
+        except Exception as ex:
+            raise Exception(ex)
+
     @classmethod
     def get_by_id(self, connection, id):
         try:

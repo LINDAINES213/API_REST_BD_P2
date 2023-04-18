@@ -12,10 +12,10 @@ def signup():
     # Aquí se debe escribir el código para registrar a un nuevo usuario en la base de datos
     try:
         email = request.json['email']
+        password = request.json['password']
         username = request.json['username']
-        contrasena = request.json['contrasena']
 
-        usuario = User(email, username, contrasena)
+        usuario = User(email, password, username)
         
         affected_rows = UserModel.signup(usuario)
 

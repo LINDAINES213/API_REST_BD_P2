@@ -52,10 +52,10 @@
   <body>
       {% extends './base.html' %}
 
-      {% block title %}Login{% endblock %}
+      {% block title %}Signin{% endblock %}
 
       {% block body %}
-      <form class="login-form" action="/login" method="POST">
+      <form class="login-form" action="/signin" method="POST">
         {% with messages = get_flashed_messages() %}
 
         {% if messages %}
@@ -69,7 +69,7 @@
         {% endif %}
 
         {% endwith %}
-        <h1>Login</h1>
+        <h1>Signin</h1>
         <div class="form-floating">
           <input type="text" class="form-control" id="email" name="email" placeholder="Email" required>
           <label for="email">Email</label>
@@ -77,6 +77,10 @@
         <div class="form-floating mt-2">
           <input type="password" class="form-control" name="password" placeholder="Password" required>
           <label for="password">Password</label>
+        </div>
+        <div class="form-floating mt-2">
+          <input type="text" class="form-control" name="username" placeholder="Nombre y Apellido" required>
+          <label for="password">Nombre y Apellido</label>
         </div>
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Login</button>
@@ -86,7 +90,11 @@
             <input type="text" id="email" name="email" required>
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
-            <button type="submit">Login</button>
+            <label for="username">Nombre y Apellido:</label>
+            <input type="text" id="username" name="username" required>
+            <button type="submit">Signin</button>
       </form>
     </body>
   </html>
+
+

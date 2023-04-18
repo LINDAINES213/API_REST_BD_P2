@@ -23,7 +23,7 @@ def load_user(id):
 
 @app.route('/')
 def index():
-    return redirect(url_for('login'))
+    return redirect(url_for('signin'))
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -43,6 +43,29 @@ def login():
             return render_template('auth/index.html')
     else:
         return render_template('auth/index.html')
+    
+@app.route('/signin', methods=['GET','POST'])
+def signin():
+    try:
+        if request.method == 'POST':
+            # Obtenemos los datos del formulario
+            email = request.form['email']
+            password = request.form['password']
+            username = request.form['username']
+
+            # Creamos el cursor para realizar la consulta
+            with connection.cursor() as cursor:
+                cursor.execute("""INSERT INTO usuario (email, password, username)
+                                VALUES (%s, %s, %s)""", (email, password, username))
+                #affected_rows = cursor.rowcount
+                connection.commit()
+            cursor.close()
+            return render_template('confirmaciones.html')
+        else:
+            flash("Error en el registro")
+            return render_template('auth/signin.html')
+    except Exception as ex:
+        return render_template('auth/signin.html')
 
 
 @app.route('/logout')
