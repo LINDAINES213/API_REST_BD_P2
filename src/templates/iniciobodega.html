@@ -1,0 +1,88 @@
+{% extends './base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+<div class="header">
+	<a href="https://www.mintrabajo.gob.gt/images/Logo-Mintrab-Horizontal.jpeg"><img src="https://www.mintrabajo.gob.gt/images/Logo-Mintrab-Horizontal.jpeg" alt="Descripción de la imagen" style="width:500;height:110px;position:relative;top:0;left:0;"></a>
+  	<h1>Bienvenido, {{ current_user.username }}</h1>
+  	<a class="btn btn-secondary" href="{{ url_for('logout') }}">Logout</a>
+</div>
+<div class="container">
+	<h2>Ministerio de Salud Publica</h2>
+	<form action="/iniciobodega" method="GET">
+		<ul>
+			<br><a href="medicamentos.html">Medicamentos por vencer</a></br>
+		</ul>
+	</form>
+	<footer>
+		<ul>
+			<br>Políticas de privacidad</br>
+			<br>Términos de uso</br>
+			<br>Contacto</br>
+		</ul>
+		<p>&copy; Ministerio de Salud Pública, todos los derechos reservados.</p>
+	</footer>
+  </div>
+<style>
+	.header {
+	  display: flex;
+	  justify-content: space-between;
+	  align-items: center;
+	  background-color: #f2f2f2;
+	  padding: 10px;
+	}
+  
+	h1 {
+	  font-size: 1.2em;
+	  margin: 0;
+	  float: right;
+	  margin-left: 600px;
+	}
+  
+	.container {
+	  margin: auto;
+	  max-width: auto;
+	  border: 3px solid #73AD21;
+	  padding: 10px;
+	}
+  
+	h2 {
+	  text-align: center;
+	  font-size: 1.5em;
+	  margin-bottom: 20px;
+	}
+  
+	form {
+	  display: flex;
+	  flex-direction: column;
+	  align-items: center;
+	}
+  
+	label {
+	  font-size: 1.2em;
+	  margin-bottom: 10px;
+	}
+  
+	select {
+	  padding: 5px;
+	  margin-bottom: 10px;
+	  font-size: 1em;
+	}
+  
+	input[type="submit"] {
+	  background-color: #4CAF50;
+	  color: white;
+	  padding: 10px;
+	  border: none;
+	  border-radius: 5px;
+	  font-size: 1em;
+	  cursor: pointer;
+	}
+  
+	input[type="submit"]:hover {
+	  background-color: #3e8e41;
+	}
+  </style>
+  {% endblock %}
+  

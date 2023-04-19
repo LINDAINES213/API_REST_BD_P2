@@ -35,12 +35,12 @@ def login():
             if logged_user.password:
                 login_user(logged_user)
                 if logged_user.tipo == "medico".lower():
-                    return render_template("inicio.html")
+                    return redirect(url_for('iniciomedicos'))
                 elif logged_user.tipo == "admin".lower():
-                    return render_template("reportesadministrativos.html")
-                elif logged_user.tipo == "bodega".lower():
-                    return render_template("inicio.html")
-
+                    return redirect(url_for('inicioadmin'))
+                    #return redirect(url_for('reportesadministrativos'))
+                elif logged_user.tipo == "bodega":
+                    return redirect(url_for('iniciobodega'))
                 #return redirect(url_for('home'))
             else:
                 flash("Invalid password...")
@@ -70,10 +70,40 @@ def signin():
             cursor.close()
             return render_template('confirmaciones.html')
         else:
-            flash("Error en el registro")
             return render_template('auth/signin.html')
+        
     except Exception as ex:
         return render_template('auth/signin.html')
+    
+@app.route('/iniciomedicos')
+@login_required
+def iniciomedicos():
+    return render_template('iniciomedicos.html')
+
+@app.route('/inicioadmin')
+@login_required
+def inicioadmin():
+    return render_template('inicioadmin.html')
+
+@app.route('/iniciobodega')
+@login_required
+def iniciobodega():
+    return render_template('iniciobodega.html')
+
+@app.route('/reportesadministrativos')
+@login_required
+def reportesadministrativos():
+    return render_template('reportesadministrativos.html')
+
+
+@app.route('/tabla')
+def tabla():
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT * FROM usuario")
+        rows = cursor.fetchall()
+        return render_template('medicamentos.html', rows=rows)
+
+
 
 
 @app.route('/logout')

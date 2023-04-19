@@ -1,65 +1,85 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Selección de reportes</title>
-	<style>
-		.container {
-			margin: auto;
-			width: 50%;
-			border: 3px solid #73AD21;
-			padding: 10px;
-		}
+{% extends './base.html' %}
 
-		h1 {
-			text-align: center;
-		}
+{% block title %}Home{% endblock %}
 
-		form {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-		}
+{% block body %}
+<div class="header">
+  <h1>Bienvenido, {{ current_user.username }}</h1>
+  <a class="btn btn-secondary" href="{{ url_for('logout') }}">Logout</a>
+</div>
+<div class="container">
+  <h2>Selecciona el reporte que deseas generar</h2>
+  <form action="/generar_reporte" method="POST">
+    <label for="reporte">Reporte:</label>
+    <select name="reporte" id="reporte">
+      <option value="reporte1">Reporte 1</option>
+      <option value="reporte2">Reporte 2</option>
+      <option value="reporte3">Reporte 3</option>
+      <option value="reporte4">Reporte 4</option>
+      <option value="reporte5">Reporte 5</option>
+    </select>
+    <input type="submit" value="Generar reporte">
+  </form>
+</div>
+<style>
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f2f2f2;
+    padding: 10px;
+  }
 
-		label {
-			font-size: 1.2em;
-			margin-bottom: 10px;
-		}
+  h1 {
+    font-size: 1.2em;
+    margin: 0;
+    float: right;
+    margin-right: 10px;
+  }
 
-		select {
-			padding: 5px;
-			margin-bottom: 10px;
-			font-size: 1em;
-		}
+  .container {
+    margin: auto;
+    max-width: 600px;
+    border: 3px solid #73AD21;
+    padding: 10px;
+  }
 
-		input[type="submit"] {
-			background-color: #4CAF50;
-			color: white;
-			padding: 10px;
-			border: none;
-			border-radius: 5px;
-			font-size: 1em;
-			cursor: pointer;
-		}
+  h2 {
+    text-align: center;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+  }
 
-		input[type="submit"]:hover {
-			background-color: #3e8e41;
-		}
-	</style>
-</head>
-<body>
-	<div class="container">
-		<h1>Selecciona el reporte que deseas generar</h1>
-		<form action="/generar_reporte" method="POST">
-			<label for="reporte">Reporte:</label>
-			<select name="reporte" id="reporte">
-				<option value="reporte1">Reporte 1</option>
-				<option value="reporte2">Reporte 2</option>
-				<option value="reporte3">Reporte 3</option>
-				<option value="reporte4">Reporte 4</option>
-				<option value="reporte5">Reporte 5</option>
-			</select>
-			<input type="submit" value="Generar reporte">
-		</form>
-	</div>
-</body>
-</html>
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  label {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+  }
+
+  select {
+    padding: 5px;
+    margin-bottom: 10px;
+    font-size: 1em;
+  }
+
+  input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+  }
+
+  input[type="submit"]:hover {
+    background-color: #3e8e41;
+  }
+</style>
+{% endblock %}
+
