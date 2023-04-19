@@ -41,7 +41,7 @@ class Paciente():
             'hospital_asignado': self.hospital_asignado,
             'enfermedades': self.enfermedades,
             'evolucion_enfermedad': self.evolucion_enfermedad,
-            'fehca_ingreso': self.fecha_ingreso,
+            'fecha_ingreso': self.fecha_ingreso,
             'fecha_salida': self.fecha_salida,
             'correo': self.correo,
             'contrasena': self.contrasena
