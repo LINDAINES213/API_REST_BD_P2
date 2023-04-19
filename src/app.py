@@ -34,7 +34,14 @@ def login():
         if logged_user != None:
             if logged_user.password:
                 login_user(logged_user)
-                return redirect(url_for('home'))
+                if logged_user.tipo == "medico".lower():
+                    return render_template("inicio.html")
+                elif logged_user.tipo == "admin".lower():
+                    return render_template("reportesadministrativos.html")
+                elif logged_user.tipo == "bodega".lower():
+                    return render_template("inicio.html")
+
+                #return redirect(url_for('home'))
             else:
                 flash("Invalid password...")
                 return render_template('auth/index.html')
