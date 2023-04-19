@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Signin</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -78,18 +78,24 @@
           <input type="password" class="form-control" name="password" placeholder="Password" required>
           <label for="password">Password</label>
         </div>
+        <div class="form-floating">
+          <input type="text" class="form-control" id="tipo" name="tipo" placeholder="Tipo de Usuario" required>
+          <label for="tipo">Tipo de Usuario (medico, admin, bodega)</label>
+        </div>
         <div class="form-floating mt-2">
           <input type="text" class="form-control" name="username" placeholder="Nombre y Apellido" required>
-          <label for="password">Nombre y Apellido</label>
+          <label for="username">Nombre y Apellido</label>
         </div>
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-        <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Login</button>
+        <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Signin</button>
       </form>
       {% endblock %}
-            <label for="username">Email:</label>
+            <label for="email">Email:</label>
             <input type="text" id="email" name="email" required>
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
+            <label for="tipo">Tipo de Usuario:</label>
+            <input type="text" id="tipo" name="tipo" required>
             <label for="username">Nombre y Apellido:</label>
             <input type="text" id="username" name="username" required>
             <button type="submit">Signin</button>

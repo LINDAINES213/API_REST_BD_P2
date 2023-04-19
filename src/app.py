@@ -29,7 +29,7 @@ def index():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        user = User(0, request.form['email'], request.form['password'])
+        user = User(0, request.form['email'], request.form['password'], request.form['tipo'])
         logged_user = ModelUser.login(connection, user)
         if logged_user != None:
             if logged_user.password:
@@ -51,12 +51,13 @@ def signin():
             # Obtenemos los datos del formulario
             email = request.form['email']
             password = request.form['password']
+            tipo = request.form['tipo']
             username = request.form['username']
 
             # Creamos el cursor para realizar la consulta
             with connection.cursor() as cursor:
-                cursor.execute("""INSERT INTO usuario (email, password, username)
-                                VALUES (%s, %s, %s)""", (email, password, username))
+                cursor.execute("""INSERT INTO usuario (email, password, tipo, username)
+                                VALUES (%s, %s, %s, %s)""", (email, password, tipo, username))
                 #affected_rows = cursor.rowcount
                 connection.commit()
             cursor.close()

@@ -9,11 +9,11 @@ class ModelUser():
             connection = get_connection()
 
             with connection.cursor() as cursor:
-                cursor.execute("SELECT id, email, password, username FROM usuario WHERE email = '{}' AND password = '{}'".format(usuario.email, usuario.password))
+                cursor.execute("SELECT id, email, password, tipo, username FROM usuario WHERE email = '{}' AND password = '{}' AND tipo = '{}'".format(usuario.email, usuario.password, usuario.tipo))
                 row = cursor.fetchone()
 
                 if row != None:
-                    usuario = User(row[0], row[1], row[2], row[3])
+                    usuario = User(row[0], row[1], row[2], row[3], row[4])
                     return usuario
                 else:
                     return None
@@ -27,8 +27,8 @@ class ModelUser():
             connection = get_connection()
 
             with connection.cursor() as cursor:
-                cursor.execute("""INSERT INTO usuario (email, password, username)
-                                VALUES (%s, %s, %s)""", (usuario.email, usuario.password, usuario.username))
+                cursor.execute("""INSERT INTO usuario (email, password, tipo, username)
+                                VALUES (%s, %s, %s, %s)""", (usuario.email, usuario.password, usuario.tipo, usuario.username))
                 affected_rows = cursor.rowcount
                 connection.commit()
 
@@ -43,11 +43,11 @@ class ModelUser():
         try:
             connection = get_connection()
             with connection.cursor() as cursor:
-                cursor.execute("SELECT id, email, username FROM usuario WHERE id = '{}'".format(id))
+                cursor.execute("SELECT id, email, tipo, username FROM usuario WHERE id = '{}'".format(id))
                 row = cursor.fetchone()
             
                 if row != None:
-                    return User(row[0], row[1], None, row[2])
+                    return User(row[0], row[1], row[2], None, row[3])
                 else:
                     return None
         except Exception as ex:
