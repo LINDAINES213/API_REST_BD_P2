@@ -2,25 +2,51 @@
 <html>
 <head>
 	<title>Pacientes con mayor asistencia a una unidad de salud</title>
-    
+	<style>
+		table {
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		th, td {
+			padding: 8px;
+			text-align: left;
+			border-bottom: 1px solid #ddd;
+		}
+
+		tr:hover {
+			background-color: #f5f5f5;
+		}
+
+		th {
+			background-color: #4CAF50;
+			color: white;
+		}
+	</style>
 </head>
 <body>
 	<h1>Pacientes con mayor asistencia a una unidad de salud</h1>
 	<table>
-		<tr>
-			<th>Nombre</th>
-			<th>IMC</th>
-			<th>Peso</th>
-            <th>Asistencias a Hospitales</th>
-		</tr>
-		{% for row in rows %}
+		<thead>
 			<tr>
-				<td>{{ row[0] }}</td>
-				<td>{{ row[1] }}</td>
-				<td>{{ row[2] }}</td>
-                <td>{{ row[3] }}</td>
+				<th>Nombre</th>
+				<th>IMC</th>
+				<th>Altura</th>
+				<th>Peso</th>
+				<th>Asistencias a Hospitales</th>
 			</tr>
-		{% endfor %}
+		</thead>
+		<tbody>
+			{% for row in rows %}
+				<tr>
+					<td>{{ row[0] }}</td>
+					<td>{{ row[1] }}</td>
+					<td>{{ row[2] }}</td>
+					<td>{{ row[3] }}</td>
+					<td>{{ row[4] }}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
 	</table>
 </body>
 </html>

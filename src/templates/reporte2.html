@@ -1,23 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Medicos con Mayor Cantidad de Pacientes Atendidoso</title>
-    
+	<title>Medicos con mayor cantidad de pacientes atendidos</title>
+	<style>
+		table {
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		th, td {
+			padding: 8px;
+			text-align: left;
+			border-bottom: 1px solid #ddd;
+		}
+
+		tr:hover {
+			background-color: #f5f5f5;
+		}
+
+		th {
+			background-color: #4CAF50;
+			color: white;
+		}
+	</style>
 </head>
 <body>
-	<h1>Medicos con Mayor Cantidad de Pacientes Atendidos</h1>
+	<h1>Medicos con mayor cantidad de pacientes atendidos</h1>
 	<table>
-		<tr>
-			<th>Nombre Medico</th>
-			<th>Cantidad de Pacientes Atentidos</th>
-		</tr>
-		{% for row in rows %}
+		<thead>
 			<tr>
-				<td>{{ row[0] }}</td>
-				<td>{{ row[1] }}</td>
-		
+				<th>Nombre Medico</th>
+				<th>Pacientes Atentidos</th>
 			</tr>
-		{% endfor %}
+		</thead>
+		<tbody>
+			{% for row in rows %}
+				<tr>
+					<td>{{ row[0] }}</td>
+					<td>{{ row[1] }}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
 	</table>
 </body>
 </html>

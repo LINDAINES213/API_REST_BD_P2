@@ -2,22 +2,45 @@
 <html>
 <head>
 	<title>Unidades de Salud con mas pacientes antendidos</title>
-    
+	<style>
+		table {
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		th, td {
+			padding: 8px;
+			text-align: left;
+			border-bottom: 1px solid #ddd;
+		}
+
+		tr:hover {
+			background-color: #f5f5f5;
+		}
+
+		th {
+			background-color: #4CAF50;
+			color: white;
+		}
+	</style>
 </head>
 <body>
 	<h1>Unidades de Salud con mas pacientes antendidos</h1>
 	<table>
-		<tr>
-			<th>Nombre Unidad de Salud</th>
-			<th>Cantidad de Pacientes Atentidos</th>
-		</tr>
-		{% for row in rows %}
+		<thead>
 			<tr>
-				<td>{{ row[0] }}</td>
-				<td>{{ row[1] }}</td>
-		
+				<th>Nombre Unidad de Salud</th>
+				<th>Cantidad de Pacientes Atendidos</th>
 			</tr>
-		{% endfor %}
+		</thead>
+		<tbody>
+			{% for row in rows %}
+				<tr>
+					<td>{{ row[0] }}</td>
+					<td>{{ row[1] }}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
 	</table>
 </body>
 </html>

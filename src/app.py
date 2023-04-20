@@ -124,7 +124,7 @@ def reporte3():
     with connection.cursor() as cursor:
         cursor.execute("""SELECT nombre, imc, altura, peso, count(pacientes.hospital_asignado) as ingresos_hospital FROM pacientes
                         GROUP BY nombre, imc, altura, peso
-                        ORDER BY count(pacientes.hospital_asignado) DESC
+                        ORDER BY ingresos_hospital DESC
                         LIMIT 5;""")
         rows = cursor.fetchall()
         return render_template('reporte3.html', rows=rows)
