@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Expediente</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+        }
+
+        table {
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		th, td {
+			padding: 8px;
+			text-align: left;
+			border-bottom: 1px solid #ddd;
+		}
+
+		tr {
+			background-color: #f5f5f5;
+		}
+
+		th {
+			background-color: #4CAF50;
+			color: white;
+		}
+
+        .alerta {
+            background-color: #ffcccc;
+        }
+
+        .alerta2{
+            background-color: #ffcccc;
+        }
+    </style>
+</head>
+<body>
+    <h1>Expediente</h1>
+    <table>
+        <tr>
+            <th>Nombre</th>
+            <th>Enfermedades Hereditarias</th>
+            <th>Tratamientos</th>
+            <th>Enfermedades</th>
+            <th>Evolucion</th>
+            <th>Medico Asignado</th>
+            <th>Hospital Asignado</th>
+            <th>Fecha de Ingreso</th>
+            <th>Fecha de Salida</th>
+            <th>Hora de atencion</th>
+        </tr>
+        {% for resultado in resultados %}
+            <td>{{ resultado[1] }}</td>
+            <td>{{ resultado[2] }}</td>
+            <td>{{ resultado[3] }}</td>
+            <td>{{ resultado[4] }}</td>
+            <td>{{ resultado[5] }}</td>
+            <td>{{ resultado[6] }}</td>
+            <td>{{ resultado[7] }}</td>
+            <td>{{ resultado[8] }}</td>
+            <td>{{ resultado[9] }}</td>
+            <td>{{ resultado[10] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

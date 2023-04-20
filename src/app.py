@@ -101,6 +101,11 @@ def reportesadministrativos():
 def medicamentos():
     return render_template('medicamentos.html')
 
+@app.route('/expediente')
+@login_required
+def expediente():
+    return render_template('expediente.html')
+
 @app.route('/medicamentos2')
 @login_required
 def medicamentos2():
@@ -128,6 +133,33 @@ def busquedam():
             return render_template('medicamentos.html')
     except Exception as ex:
         return render_template('medicamentos.html')
+    
+
+@app.route('/busquedaexpedientes', methods=['GET', 'POST'])
+@login_required
+def busquedaexpedientes():
+    try:
+        if request.method == 'POST':
+            dpi = request.form['dpi']
+            if not dpi:
+                error = 'El campo de búsqueda es obligatorio.'
+                return render_template('expediente.html', error=error)
+            
+            with connection.cursor() as cursor:
+                cursor.execute("""SELECT p.dpi, p.nombre, enfermedades_hereditarias, tratamientos, enfermedades, 
+                                evolucion_enfermedad, m.nombre, h.nombre, fecha_ingreso, fecha_salida, hora_atencion 
+                                FROM pacientes p
+                                LEFT JOIN medicos m on p.medico_asignado = m.id_medico
+                                LEFT JOIN hospitales h on p.hospital_asignado = h.codigo
+                                WHERE p.dpi = %s""", (dpi,))
+                resultados = cursor.fetchall()
+            cursor.close()
+            return render_template('expediente2.html', resultados=resultados)
+            
+        else:
+            return render_template('expediente.html')
+    except Exception as ex:
+        return render_template('expediente.html')
 
 
 @app.route('/reporte2')
