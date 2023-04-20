@@ -10,11 +10,11 @@ class BitacoraModel():
             bitacora=[]
 
             with connection.cursor() as cursor:
-                cursor.execute("SELECT fechahora, accion, nombre_tabla FROM bitacora")
+                cursor.execute("SELECT id, fechahora, accion, nombre_tabla FROM bitacora")
                 resultset=cursor.fetchall()
                 
                 for row in resultset:
-                    bitacora=Bitacora(row[0], row[1], row[2])
+                    bitacora=Bitacora(row[0], row[1], row[2], row[3])
                     bitacora.append(bitacora.to_JSON())
 
             connection.close()
@@ -23,21 +23,21 @@ class BitacoraModel():
             raise Exception(ex)
         
     @classmethod
-    def get_bitacora(self, nombre_tabla):
+    def get_bitacora(self, id):
         try:
             
             connection=get_connection()
             bitacora=[]
 
             with connection.cursor() as cursor:
-                cursor.execute("""SELECT fechahora, accion, nombre_tabla FROM bitacora
-                                WHERE nombre_tabla = %s""", (nombre_tabla,))
+                cursor.execute("""SELECT id, fechahora, accion, nombre_tabla FROM bitacora
+                                WHERE id = %s""", (id,))
                 row=cursor.fetchone()
                 
                 bitacora = None
 
                 if row != None:
-                    bitacora=Bitacora(row[0], row[1], row[2])
+                    bitacora=Bitacora(row[0], row[1], row[2], row[3])
                     bitacora = bitacora.to_JSON()
 
             connection.close()
@@ -51,8 +51,8 @@ class BitacoraModel():
             connection=get_connection()
 
             with connection.cursor() as cursor:
-                cursor.execute("""INSERT INTO (fechahora, accion, nombre_tabla)
-                                VALUES (%s, %s, %s)""", (bitacora.fechahora, bitacora.accion, bitacora.nombre_tabla))
+                cursor.execute("""INSERT INTO (id, fechahora, accion, nombre_tabla)
+                                VALUES (%s, %s, %s, %s)""", (bitacora.id, bitacora.fechahora, bitacora.accion, bitacora.nombre_tabla))
                 affected_rows = cursor.rowcount
                 connection.commit()
 
@@ -68,8 +68,8 @@ class BitacoraModel():
             connection=get_connection()
 
             with connection.cursor() as cursor:
-                cursor.execute("""UPDATE bitacora SET fechahora = %s, accion = %s, nombre_tabla = %s
-                                """, (bitacora.fechahora, bitacora.accion, bitacora.nombre_tabla))
+                cursor.execute("""UPDATE bitacora SET id = %s, fechahora = %s, accion = %s, nombre_tabla = %s
+                                """, (bitacora.id, bitacora.fechahora, bitacora.accion, bitacora.nombre_tabla))
                 affected_rows = cursor.rowcount
                 connection.commit()
 

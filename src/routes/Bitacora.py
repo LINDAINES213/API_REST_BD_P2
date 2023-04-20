@@ -15,10 +15,10 @@ def get_bitacora():
     except Exception as ex:
         return jsonify({'message': str(ex)}), 500
     
-@main.route('/<nombre_tabla>')
-def get_bitacora(nombre_tabla):
+@main.route('/<id>')
+def get_bitacora(id):
     try:
-        bitacora = BitacoraModel.get_bitacora(nombre_tabla)
+        bitacora = BitacoraModel.get_bitacora(id)
         if bitacora != None:
             return jsonify(bitacora)
         else:
@@ -29,35 +29,37 @@ def get_bitacora(nombre_tabla):
 @main.route('/add', methods=['POST'])
 def add_bitacora():
     try:
+        id = request.json['id']
         fechahora = request.json['fechahora']
         accion = request.json['accion']
         nombre_tabla = request.json['nombre_tabla']
 
-        bitacora = Bitacora(fechahora, accion, nombre_tabla)
+        bitacora = Bitacora(id, fechahora, accion, nombre_tabla)
         
         affected_rows = BitacoraModel.add_bitacora(bitacora)
 
         if affected_rows == 1:
-            return jsonify(bitacora.nombre_tabla)
+            return jsonify(bitacora.id)
         else:
             return jsonify({'message': "Error on insert"}), 500
         ############# validar datos ######################
     except Exception as ex:
         return jsonify({'message': str(ex)}), 500
     
-@main.route('/update/<nombre_tabla>', methods=['PUT'])
-def update_bitacora(nombre_tabla):
+@main.route('/update/<id>', methods=['PUT'])
+def update_bitacora(id):
     try:
+        id = request.json['id']
         fechahora = request.json['fechahora']
         accion = request.json['accion']
         nombre_tabla = request.json['nombre_tabla']
         
-        bitacora = Bitacora(fechahora, accion, nombre_tabla)
+        bitacora = Bitacora(id, fechahora, accion, nombre_tabla)
         
         affected_rows = BitacoraModel.update_bitacora(bitacora)
 
         if affected_rows == 1:
-            return jsonify(bitacora.nombre_tabla)
+            return jsonify(bitacora.id)
         else:
             return jsonify({'message': "No paciente updated"}), 404
         ############# validar datos ######################
