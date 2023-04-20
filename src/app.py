@@ -2,11 +2,13 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_wtf.csrf import CSRFProtect
 from flask_login import LoginManager, login_user, logout_user, login_required
 from database.db import get_connection
+from datetime import datetime, timedelta
 
 from config import config
 
 # Models:
 from models.ModelUser import ModelUser
+from models.MedicamentosModel import MedicamentosModel
 
 # Entities:
 from models.entities.User import User
@@ -55,25 +57,24 @@ def login():
 def signin():
     try:
         if request.method == 'POST':
-            # Obtenemos los datos del formulario
             email = request.form['email']
             password = request.form['password']
             tipo = request.form['tipo']
             username = request.form['username']
 
-            # Creamos el cursor para realizar la consulta
             with connection.cursor() as cursor:
                 cursor.execute("""INSERT INTO usuario (email, password, tipo, username)
                                 VALUES (%s, %s, %s, %s)""", (email, password, tipo, username))
-                #affected_rows = cursor.rowcount
                 connection.commit()
             cursor.close()
-            return render_template('confirmaciones.html')
+            return render_template('auth/index.html')
         else:
             return render_template('auth/signin.html')
         
     except Exception as ex:
         return render_template('auth/signin.html')
+    
+
     
 @app.route('/iniciomedicos')
 @login_required
@@ -94,6 +95,36 @@ def iniciobodega():
 @login_required
 def reportesadministrativos():
     return render_template('reportesadministrativos.html')
+
+@app.route('/medicamentos')
+@login_required
+def medicamentos():
+    return render_template('medicamentos.html')
+
+@app.route('/medicamentos2')
+@login_required
+def medicamentos2():
+    return render_template('medicamentos2.html')
+
+@app.route('/busquedam', methods=['GET', 'POST'])
+@login_required
+def busquedam():
+    if request.method == 'POST':
+        fecha_actual = datetime.utcnow().strftime('%Y-%m-%d')
+        fecha_vencimiento = datetime.now().date() + timedelta(days=15)
+        mes = request.form['mes']
+        if not mes:
+            error = 'El campo de búsqueda es obligatorio.'
+            return render_template('medicamentos.html', error=error)
+        
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT nombre, fecha_vencimiento, cantidad_actual, cantidad_necesaria FROM medicamentos WHERE extract(month from fecha_vencimiento) = %s", (mes,))
+            resultados = cursor.fetchall()
+        cursor.close()
+        return render_template('medicamentos2.html', resultados=resultados, fecha_actual=fecha_actual, fecha_vencimiento=fecha_vencimiento)
+        
+    else:
+        return render_template('medicamentos.html')
 
 
 @app.route('/reporte2')
@@ -200,4 +231,3 @@ if __name__ == '__main__':
     app.register_error_handler(401, status_401)
     app.register_error_handler(404, status_404)
     app.run()
-

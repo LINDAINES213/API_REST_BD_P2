@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resultados de búsqueda</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+        }
+
+        table {
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		th, td {
+			padding: 8px;
+			text-align: left;
+			border-bottom: 1px solid #ddd;
+		}
+
+		tr {
+			background-color: #f5f5f5;
+		}
+
+		th {
+			background-color: #4CAF50;
+			color: white;
+		}
+
+        .alerta {
+            background-color: #ffcccc;
+        }
+
+        .alerta2{
+            background-color: #ffcccc;
+        }
+    </style>
+</head>
+<body>
+    <h1>Resultados de búsqueda</h1>
+    <table>
+        <tr>
+            <th>Nombre</th>
+            <th>Fecha de vencimiento</th>
+            <th>Cantidad actual</th>
+        </tr>
+        {% for resultado in resultados %}
+        <tr {% if resultado[1] <= (fecha_vencimiento) %}class="alerta"{% endif %}>
+            <td>{{ resultado[0] }}</td>
+            <td>{{ resultado[1].strftime('%Y-%m-%d') }}</td>
+            <td{% if resultado[2] <= resultado[3] * 0.15 %} class="alerta"{% endif %}>{{ resultado[2] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

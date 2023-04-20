@@ -4,21 +4,21 @@ from .entities.Medicamentos import Medicamentos
 class MedicamentosModel():
 
     @classmethod
-    def get_medicamentos(self):
+    def get_medicamentos(self, connection, mes):
         try:
             connection=get_connection()
             medicamentos=[]
 
             with connection.cursor() as cursor:
-                cursor.execute("SELECT id, nombre, cantidad_actual, cantidad_necesaria, necesita_compra, hospital FROM medicamentos ORDER BY id DESC")
-                resultset=cursor.fetchall()
+                cursor.execute("SELECT * FROM medicamentos WHERE fecha_vencimiento LIKE '{}%'".format(mes))
+                rows=cursor.fetchone()
                 
-                for row in resultset:
-                    medicamentos=Medicamentos(row[0], row[1], row[2], row[3], row[4])
-                    medicamentos.append(medicamentos.to_JSON())
-
+                if rows != None:
+                    usuario = Medicamentos(rows[0], rows[1], rows[2], rows[3], rows[4], rows[5], rows[6])
+                    return usuario
+                else:
+                    return None
             connection.close()
-            return medicamentos
         except Exception as ex:
             raise Exception(ex)
         
