@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Pacientes con mayor asistencia a una unidad de salud</title>
+    
+</head>
+<body>
+	<h1>Pacientes con mayor asistencia a una unidad de salud</h1>
+	<table>
+		<tr>
+			<th>Nombre</th>
+			<th>IMC</th>
+			<th>Peso</th>
+            <th>Asistencias a Hospitales</th>
+		</tr>
+		{% for row in rows %}
+			<tr>
+				<td>{{ row[0] }}</td>
+				<td>{{ row[1] }}</td>
+				<td>{{ row[2] }}</td>
+                <td>{{ row[3] }}</td>
+			</tr>
+		{% endfor %}
+	</table>
+</body>
+</html>

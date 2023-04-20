@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Enfermedades mas Mortales</title>
+    
+</head>
+<body>
+	<h1>Enfermedades mas Mortales</h1>
+	<table>
+		<tr>
+			<th>Nombre</th>
+			<th>Tipo</th>
+			<th>Mortalidad</th>
+			<th>Ubicacion Geografica</th>
+		</tr>
+		{% for row in rows %}
+			<tr>
+				<td>{{ row[0] }}</td>
+				<td>{{ row[1] }}</td>
+				<td>{{ row[2] }}</td>
+				<td>{{ row[3] }}</td>		
+			</tr>
+		{% endfor %}
+	</table>
+</body>
+</html>

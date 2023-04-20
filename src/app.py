@@ -96,13 +96,76 @@ def reportesadministrativos():
     return render_template('reportesadministrativos.html')
 
 
-@app.route('/tabla')
-def tabla():
+@app.route('/reporte2')
+@login_required
+def reporte2():
     with connection.cursor() as cursor:
-        cursor.execute("SELECT * FROM usuario")
+        cursor.execute("""SELECT m.nombre, COUNT(p.id_paciente) AS pacientes_atendidos FROM medicos m
+                        LEFT JOIN pacientes p on m.id_medico = medico_asignado
+                        GROUP BY  m.nombre
+                        ORDER BY pacientes_atendidos desc
+                        LIMIT 10""")
         rows = cursor.fetchall()
-        return render_template('medicamentos.html', rows=rows)
+        return render_template('reporte2.html', rows=rows)
 
+@app.route('/reporte1')
+@login_required
+def reporte1():
+    with connection.cursor() as cursor:
+        cursor.execute("""SELECT nombre, tipo, mortalidad, ubicacion_geografica FROM enfermedades
+                        ORDER BY mortalidad desc
+                        limit 10""")
+        rows = cursor.fetchall()
+        return render_template('reporte1.html', rows=rows)
+    
+@app.route('/reporte3')
+@login_required
+def reporte3():
+    with connection.cursor() as cursor:
+        cursor.execute("""SELECT nombre, imc, altura, peso, count(pacientes.hospital_asignado) as ingresos_hospital FROM pacientes
+                        GROUP BY nombre, imc, altura, peso
+                        ORDER BY count(pacientes.hospital_asignado) DESC
+                        LIMIT 5;""")
+        rows = cursor.fetchall()
+        return render_template('reporte3.html', rows=rows)
+
+@app.route('/reporte4')
+@login_required
+def reporte4():
+    with connection.cursor() as cursor:
+        cursor.execute("""SELECT nombre, cantidad_actual, hospital FROM medicamentos
+                        WHERE cantidad_actual <= 15;""")
+        rows = cursor.fetchall()
+        return render_template('reporte4.html', rows=rows)
+
+@app.route('/reporte5')
+@login_required
+def reporte5():
+    with connection.cursor() as cursor:
+        cursor.execute("""SELECT h.nombre, COUNT(p.id_paciente) AS pacientes_atendidos FROM hospitales h
+                        LEFT JOIN pacientes p on h.codigo = hospital_asignado
+                        GROUP BY h.nombre
+                        ORDER BY pacientes_atendidos desc
+                        LIMIT 3""")
+        rows = cursor.fetchall()
+        return render_template('reporte5.html', rows=rows)
+
+@app.route('/generarreporte', methods=['POST'])
+@login_required
+def generarreporte():
+    reporte = request.form['reporte']
+    if reporte == 'reporte1':
+        return redirect('/reporte1')
+    elif reporte == 'reporte2':
+        return redirect('/reporte2')
+    elif reporte == 'reporte3':
+        return redirect('/reporte3')
+    elif reporte == 'reporte4':
+        return redirect('/reporte4')
+    elif reporte == 'reporte5':
+        return redirect('/reporte5')
+    else:
+        return redirect('/inicioadmin')
 
 
 
@@ -137,3 +200,4 @@ if __name__ == '__main__':
     app.register_error_handler(401, status_401)
     app.register_error_handler(404, status_404)
     app.run()
+

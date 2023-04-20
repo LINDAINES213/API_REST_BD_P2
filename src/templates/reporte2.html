@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Medicos con Mayor Cantidad de Pacientes Atendidoso</title>
+    
+</head>
+<body>
+	<h1>Medicos con Mayor Cantidad de Pacientes Atendidos</h1>
+	<table>
+		<tr>
+			<th>Nombre Medico</th>
+			<th>Cantidad de Pacientes Atentidos</th>
+		</tr>
+		{% for row in rows %}
+			<tr>
+				<td>{{ row[0] }}</td>
+				<td>{{ row[1] }}</td>
+		
+			</tr>
+		{% endfor %}
+	</table>
+</body>
+</html>

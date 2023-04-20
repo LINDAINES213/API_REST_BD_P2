@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Unidades de Salud con mas pacientes antendidos</title>
+    
+</head>
+<body>
+	<h1>Unidades de Salud con mas pacientes antendidos</h1>
+	<table>
+		<tr>
+			<th>Nombre Unidad de Salud</th>
+			<th>Cantidad de Pacientes Atentidos</th>
+		</tr>
+		{% for row in rows %}
+			<tr>
+				<td>{{ row[0] }}</td>
+				<td>{{ row[1] }}</td>
+		
+			</tr>
+		{% endfor %}
+	</table>
+</body>
+</html>
