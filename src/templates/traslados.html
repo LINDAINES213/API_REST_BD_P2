@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Traslados</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+      
+      .login-form {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+        padding: 20px;
+        max-width: 400px;
+        width: 100%;
+      }
+      
+      .login-form h1 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      
+      .login-form input[type=text], .login-form input[type=password] {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        border: none;
+        box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2);
+      }
+      
+      .login-form button[type=submit] {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        background-color: #4CAF50;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+      {% extends './base.html' %}
+
+      {% block title %}Traslados{% endblock %}
+      {% block body %}
+      <form class="login-form" action="/traslados2" method="POST">
+        {% with messages = get_flashed_messages() %}
+
+        {% if messages %}
+        <br />
+        {% for message in messages %}
+        <div class="alert alert-primary alert-dismissible" role="alert">
+            <strong>{{ message }}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        {% endwith %}
+        <h1>Traslados</h1>
+        <p>Ingrese los campos para anadir un nuevo traslado</p>
+        <div class="form-floating">
+          <input type="text" class="form-control" id="idtraslado" name="idtraslado" placeholder="ID Traslado" required>
+          <label for="idtraslado">ID Traslado</label>
+        </div>
+        <div class="form-floating">
+          <input type="text" class="form-control" id="idmedico" name="idmedico" placeholder="ID Medico" required>
+          <label for="idmedico">ID Medico</label>
+        </div>
+        <div class="form-floating">
+          <input type="text" class="form-control" name="hospital_anterior" placeholder="ID Hospital Anterior" required>
+          <label for="hospital_anterior">ID Hospital Anterior</label>
+        </div>
+        <div class="form-floating">
+            <input type="text" class="form-control" name="hospital_nuevo" placeholder="ID Hospital Nuevo" required>
+            <label for="hospital_nuevo">ID Hospital Nuevo</label>
+        </div>
+        <div class="form-floating">
+          <input type="date" class="form-control" name="fecha_traslado" placeholder="Fecha de Traslado" required>
+          <label for="fecha_traslado">Fecha de Traslado</label>
+        </div>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Guardar traslado</button>
+        <button class="w-100 btn btn-lg btn-primary mt-3" onclick="window.location.href='/trasladosT'">Ver traslados</button>
+
+
+      </form>
+      {% endblock %}
+            <label for="idtraslado">ID Traslado:</label>
+            <input type="text" id="idtraslado" name="idtraslado" required>
+            <label for="idmedico">ID Medico:</label>
+            <input type="text" id="idmedico" name="idmedico" required>
+            <label for="hospital_anterior">ID Hospital Anterior:</label>
+            <input type="text" id="hospital_anterior" name="hospital_anterior" required>
+            <label for="hospital_nuevo">ID Hospital Nuevo:</label>
+            <input type="text" id="hospital_nuevo" name="hospital_nuevo" required>
+            <label for="fecha_traslado">Fecha de Traslado:</label>
+            <input type="date" id="fecha_traslado" name="fecha_traslado" required>
+            <button type="submit">Guardar traslado</button>
+            <button onclick="window.location.href='/login'">Ver traslados</button>
+      </form>
+    </body>
+  </html>

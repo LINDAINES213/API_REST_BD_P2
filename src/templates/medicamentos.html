@@ -1,59 +1,88 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Búsqueda por mes</title>
+  <head>
+    <meta charset="UTF-8">
+    <title>Busqueda por mes</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        form {
-            width: 400px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0px 2px 5px rgba(0,0,0,0.3);
-        }
-        input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            box-sizing: border-box;
-            border: 2px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
-            margin-bottom: 10px;
-        }
-        input[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        input[type="submit"]:hover {
-            background-color: #45a049;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+      
+      .login-form {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+        padding: 20px;
+        max-width: 400px;
+        width: 100%;
+      }
+      
+      .login-form h1 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      
+      .login-form input[type=text], .login-form input[type=password] {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        border: none;
+        box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2);
+      }
+      
+      .login-form button[type=submit] {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        background-color: #4CAF50;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
     </style>
-</head>
-<body>
-    <h1>Búsqueda por mes</h1>
-    <form action="/busquedam" method="post">
-        <input type="text" name="mes" placeholder="Mes (número)">
-        
+  </head>
+  <body>
+      {% extends './base.html' %}
+
+      {% block title %}Busqueda por mes{% endblock %}
+
+      {% block body %}
+      <form class="login-form" action="/busquedam" method="POST">
+        {% with messages = get_flashed_messages() %}
+
+        {% if messages %}
+        <br />
+        {% for message in messages %}
+        <div class="alert alert-primary alert-dismissible" role="alert">
+            <strong>{{ message }}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        {% endwith %}
+        <h1>Busqueda por mes</h1>
+        <div class="form-floating">
+          <input type="text" class="form-control" id="mes" name="mes" placeholder="Mes" required>
+          <label for="mes">Mes</label>
+        </div>
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-        <input type="submit" value="Buscar">
-    </form>
-    
-    {% if error %}
-        <p style="color: red; text-align: center;">{{ error }}</p>
-    {% endif %}
-</body>
-</html>
+        <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Buscar</button>
+
+      </form>
+      {% endblock %}
+            <label for="mes">Mes:</label>
+            <input type="text" id="mes" name="mes" required>
+            <button type="submit">Buscar</button>
+
+      </form>
+    </body>
+  </html>

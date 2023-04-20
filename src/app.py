@@ -8,7 +8,6 @@ from config import config
 
 # Models:
 from models.ModelUser import ModelUser
-from models.MedicamentosModel import MedicamentosModel
 
 # Entities:
 from models.entities.User import User
@@ -40,10 +39,8 @@ def login():
                     return redirect(url_for('iniciomedicos'))
                 elif logged_user.tipo == "admin".lower():
                     return redirect(url_for('inicioadmin'))
-                    #return redirect(url_for('reportesadministrativos'))
                 elif logged_user.tipo == "bodega":
                     return redirect(url_for('iniciobodega'))
-                #return redirect(url_for('home'))
             else:
                 flash("Invalid password...")
                 return render_template('auth/index.html')
@@ -111,6 +108,49 @@ def expediente():
 def medicamentos2():
     return render_template('medicamentos2.html')
 
+@app.route('/traslados')
+@login_required
+def traslados():
+    return render_template('traslados.html')
+
+@app.route('/trasladosT')
+@login_required
+def trasladosT():
+    with connection.cursor() as cursor:
+        cursor.execute("""SELECT t.idtraslado, t.idmedico, m.nombre,  t.hospital_anterior, h.nombre, t.hospital_nuevo, o.nombre, fecha_traslado FROM traslados t
+                        LEFT JOIN medicos m on t.idmedico = m.id_medico
+                        LEFT JOIN hospitales h on t.hospital_anterior = h.codigo 
+						LEFT JOIN hospitales o on t.hospital_nuevo = o.codigo """)
+        rows = cursor.fetchall()
+        return render_template('traslados2.html', rows=rows)
+
+@app.route('/traslados2', methods=['POST'])
+@login_required
+def traslados2():
+    try:
+    
+        idtraslado = request.form['idtraslado']
+        idmedico = request.form['idmedico']
+        hospital_anterior = request.form['hospital_anterior']
+        hospital_nuevo = request.form['hospital_nuevo']
+        fecha_traslado = request.form['fecha_traslado']
+
+        with connection.cursor() as cursor:
+            cursor.execute("""INSERT INTO traslados (idtraslado, idmedico, hospital_anterior, hospital_nuevo, fecha_traslado)
+                                    VALUES (%s, %s, %s, %s, %s)""", (idtraslado, idmedico, hospital_anterior, hospital_nuevo, fecha_traslado))
+            connection.commit()
+            with connection.cursor() as cursor:
+                cursor.execute("""SELECT t.idtraslado, t.idmedico, m.nombre,  t.hospital_anterior, h.nombre, t.hospital_nuevo, o.nombre, fecha_traslado FROM traslados t
+                        LEFT JOIN medicos m on t.idmedico = m.id_medico
+                        LEFT JOIN hospitales h on t.hospital_anterior = h.codigo 
+						LEFT JOIN hospitales o on t.hospital_nuevo = o.codigo """)
+                rows = cursor.fetchall()
+            return render_template('traslados2.html', rows=rows)
+    except Exception as ex:
+        return render_template('traslados.html')
+
+
+
 @app.route('/busquedam', methods=['GET', 'POST'])
 @login_required
 def busquedam():
@@ -160,6 +200,8 @@ def busquedaexpedientes():
             return render_template('expediente.html')
     except Exception as ex:
         return render_template('expediente.html')
+    
+
 
 
 @app.route('/reporte2')
