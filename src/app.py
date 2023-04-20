@@ -109,21 +109,24 @@ def medicamentos2():
 @app.route('/busquedam', methods=['GET', 'POST'])
 @login_required
 def busquedam():
-    if request.method == 'POST':
-        fecha_actual = datetime.utcnow().strftime('%Y-%m-%d')
-        fecha_vencimiento = datetime.now().date() + timedelta(days=15)
-        mes = request.form['mes']
-        if not mes:
-            error = 'El campo de búsqueda es obligatorio.'
-            return render_template('medicamentos.html', error=error)
-        
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT nombre, fecha_vencimiento, cantidad_actual, cantidad_necesaria FROM medicamentos WHERE extract(month from fecha_vencimiento) = %s", (mes,))
-            resultados = cursor.fetchall()
-        cursor.close()
-        return render_template('medicamentos2.html', resultados=resultados, fecha_actual=fecha_actual, fecha_vencimiento=fecha_vencimiento)
-        
-    else:
+    try:
+        if request.method == 'POST':
+            fecha_actual = datetime.utcnow().strftime('%Y-%m-%d')
+            fecha_vencimiento = datetime.now().date() + timedelta(days=15)
+            mes = request.form['mes']
+            if not mes:
+                error = 'El campo de búsqueda es obligatorio.'
+                return render_template('medicamentos.html', error=error)
+            
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT nombre, fecha_vencimiento, cantidad_actual, cantidad_necesaria FROM medicamentos WHERE extract(month from fecha_vencimiento) = %s", (mes,))
+                resultados = cursor.fetchall()
+            cursor.close()
+            return render_template('medicamentos2.html', resultados=resultados, fecha_actual=fecha_actual, fecha_vencimiento=fecha_vencimiento)
+            
+        else:
+            return render_template('medicamentos.html')
+    except Exception as ex:
         return render_template('medicamentos.html')
 
 
