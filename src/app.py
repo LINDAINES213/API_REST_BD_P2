@@ -213,6 +213,47 @@ def busquedaexpedientes():
             return render_template('expediente.html')
     except Exception as ex:
         return render_template('expediente.html')
+    
+@app.route('/crearexpediente')
+@login_required
+def crearexpediente():
+    return render_template('crearexpediente.html')
+
+#CREACION
+
+@app.route('/crearexpediente2', methods=['POST'])
+@login_required
+def crearexpediente2():
+    try:
+        id_paciente = request.form['id_paciente']
+        dpi = request.form['dpi']
+        nombre = request.form['nombre']
+        telefono = request.form['telefono']
+        direccion = request.form['direccion']
+        imc = request.form['imc']
+        altura = request.form['altura']
+        peso = request.form['peso']
+        adiccion = request.form['adiccion']
+        enfermedades_hereditarias = request.form['enfermedades_hereditarias']
+        tratamientos = request.form['tratamientos']
+        medico_asignado = request.form['medico_asignado']
+        hospital_asignado = request.form['hospital_asignado']
+        enfermedades = request.form['enfermedades']
+        evolucion_enfermedad = request.form['evolucion_enfermedad']
+        fecha_ingreso = request.form['fecha_ingreso']
+        fecha_salida = request.form['fecha_salida']
+        hora_atencion = request.form['hora_atencion']
+        
+
+        with connection.cursor() as cursor:
+            cursor.execute("""INSERT INTO pacientes VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""", 
+                           (id_paciente, dpi, nombre, telefono, direccion, imc, altura, peso, adiccion, enfermedades_hereditarias, tratamientos, medico_asignado, hospital_asignado, enfermedades, evolucion_enfermedad, fecha_ingreso, fecha_salida, hora_atencion))
+            connection.commit()                
+        cursor.close()
+        return render_template('confirmaciones.html',)
+    
+    except Exception as ex:
+        return render_template('crearexpediente.html')
 
 #MUESTRA LA BITACORA DE CAMBIOS
 @app.route('/bitacora')

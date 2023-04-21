@@ -76,12 +76,16 @@
         </div>
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Buscar</button>
+        <button class="w-100 btn btn-lg btn-primary mt-3" onclick="window.location.href='/crearexpediente'">Crear Expediente</button>
+
 
       </form>
       {% endblock %}
             <label for="dpi">DPI del Paciente:</label>
             <input type="text" id="dpi" name="dpi" required>
             <button type="submit">Buscar</button>
+            <button class="w-100 btn btn-lg btn-primary mt-3" onclick="window.location.href='/crearexpediente'">Crear Expediente</button>
+
 
       </form>
     </body>
