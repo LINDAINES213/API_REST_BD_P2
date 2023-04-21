@@ -148,8 +148,30 @@ def traslados2():
             return render_template('traslados2.html', rows=rows)
     except Exception as ex:
         return render_template('traslados.html')
+    
+@app.route('/crearusuario', methods=['GET','POST'])
+@login_required
+def crearusuario():
+    try:
+        if request.methods == 'POST':
+            id_medico = request.form['idmedico']
+            dpi = request.form['dpi']
+            nombre = request.form['nombre']
+            telefono = request.form['telefono']
+            direccion = request.form['direccion']
+            num_colegiado = request.form['num_colegiado']
+            especialidades = request.form['especialidades']
+            hospital = request.form['hospital']
+            fecha_contratacion = request.form['fecha_contratacion']
+            correo = request.form['correo']
+            contrasena = request.form['contrasena']
 
-
+            with connection.cursor() as cursor:
+                cursor.execute("""INSERT INTO medicos (id_medico, dpi, nombre, telefono, direccion, num_colegiado, especialidades, hospital, fecha_contratacion, correo, contrasena)
+                                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""", (id_medico, dpi, nombre, telefono, direccion, num_colegiado, especialidades, hospital, fecha_contratacion, correo, contrasena))
+            return render_template('usuariosT1.html')
+    except Exception as ex:
+        return render_template('crearusuario.html')
 
 @app.route('/busquedam', methods=['GET', 'POST'])
 @login_required
@@ -201,6 +223,16 @@ def busquedaexpedientes():
     except Exception as ex:
         return render_template('expediente.html')
     
+
+@app.route('/usuariosT', methods=['GET', 'POST'])
+@login_required
+def usuariosT():
+    with connection.cursor() as cursor:
+        cursor.execute("""SELECT id_medico, dpi, m.nombre, telefono, direccion, num_colegiado, especialidades, hospital, h.nombre, fecha_contratacion FROM medicos m
+                        LEFT JOIN hospitales h ON m.hospital = h.codigo
+                        ORDER BY id_medico""")
+        rows = cursor.fetchall()
+        return render_template('usuariosT.html', rows=rows)
 
 
 
