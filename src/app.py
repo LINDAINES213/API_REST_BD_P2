@@ -166,7 +166,7 @@ def bitacora():
         rows = cursor.fetchall()
         return render_template('bitacora.html', rows=rows) 
     
-###### CREACION Y EDICION ########
+# CREACION Y EDICION USUARIOS
 
 @app.route('/usuarios')
 @login_required
@@ -182,6 +182,8 @@ def usuarios():
 @login_required
 def crearusuario():
     return render_template('crearusuario.html')
+
+#CREACION
 
 @app.route('/usuarios2', methods=['POST'])
 @login_required
@@ -214,6 +216,8 @@ def usuarios2():
 def editarusuario():
     return render_template('editarusuario.html')
 
+#EDICION
+
 @app.route('/usuarios3', methods=['POST'])
 @login_required
 def usuarios3():
@@ -240,7 +244,6 @@ def usuarios3():
     except Exception as ex:
         return render_template('usuarios.html')
 
-##################################
 
 
 @app.route('/traslados')

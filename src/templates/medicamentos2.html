@@ -44,12 +44,14 @@
             <th>Nombre</th>
             <th>Fecha de vencimiento</th>
             <th>Cantidad actual</th>
+            <th>Cantidad Necesaria</th>
         </tr>
         {% for resultado in resultados %}
         <tr {% if resultado[1] <= (fecha_vencimiento) %}class="alerta"{% endif %}>
             <td>{{ resultado[0] }}</td>
             <td>{{ resultado[1].strftime('%Y-%m-%d') }}</td>
             <td{% if resultado[2] <= resultado[3] * 0.15 %} class="alerta"{% endif %}>{{ resultado[2] }}</td>
+            <td>{{resultado[3]}}</td>
         </tr>
         {% endfor %}
     </table>
