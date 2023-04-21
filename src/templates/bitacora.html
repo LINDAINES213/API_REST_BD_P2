@@ -25,7 +25,7 @@
 	</style>
 </head>
 <body>
-	<h1>Historial de traslados</h1>
+	<h1>Historial de cambios de informacion</h1>
 	<table>
 		<thead>
 			<tr>
@@ -38,10 +38,10 @@
 		<tbody>
 			{% for row in rows %}
 				<tr>
+					<td>{{ row[3] }}</td>
 					<td>{{ row[0] }}</td>
 					<td>{{ row[1] }}</td>
 					<td>{{ row[2] }}</td>
-					<td>{{ row[3] }}</td>
 				</tr>
 			{% endfor %}
 		</tbody>

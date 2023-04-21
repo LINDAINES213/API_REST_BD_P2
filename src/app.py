@@ -120,7 +120,7 @@ def trasladosT():
         cursor.execute("""SELECT t.idtraslado, t.idmedico, m.nombre,  t.hospital_anterior, h.nombre, t.hospital_nuevo, o.nombre, fecha_traslado FROM traslados t
                         LEFT JOIN medicos m on t.idmedico = m.id_medico
                         LEFT JOIN hospitales h on t.hospital_anterior = h.codigo 
-						LEFT JOIN hospitales o on t.hospital_nuevo = o.codigo """)
+						LEFT JOIN hospitales o on t.hospital_nuevo = o.codigo""")
         rows = cursor.fetchall()
         return render_template('traslados2.html', rows=rows)
 
@@ -128,7 +128,7 @@ def trasladosT():
 @login_required
 def traslados2():
     try:
-    
+
         idtraslado = request.form['idtraslado']
         idmedico = request.form['idmedico']
         hospital_anterior = request.form['hospital_anterior']
@@ -173,17 +173,17 @@ def crearusuario():
     except Exception as ex:
         return render_template('crearusuario.html')
 
-@app.route('/Bitacora')
+@app.route('/bitacora')
 @login_required
-def trasladosT():
+def bitacora():
     with connection.cursor() as cursor:
         cursor.execute("""SELECT * FROM bitacora""")
         rows = cursor.fetchall()
         return render_template('bitacora.html', rows=rows)
 
-@app.route('/Bitacora2', methods=['POST'])
+"""@app.route('/bitacora2', methods=['POST'])
 @login_required
-def traslados2():
+def bitacora2():
     try:
     
         idbitacora = request.form['ID']
@@ -192,11 +192,11 @@ def traslados2():
         nombre_tabla  = request.form['nombre_tabla ']
 
         with connection.cursor() as cursor:
-            cursor.execute("""SELECT * FROM bitacora""")
+            cursor.execute("SELECT * FROM bitacora")
             rows = cursor.fetchall()
         return render_template('bitacora.html', rows=rows)
     except Exception as ex:
-        return render_template('home.html')
+        return render_template('home.html')"""
     
 
 
