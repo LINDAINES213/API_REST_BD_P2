@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Anadir Medicamento</title>
+    <title>Editar Medicamento</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -54,9 +54,9 @@
   <body>
       {% extends './base.html' %}
 
-      {% block title %}Anadir Medicamento{% endblock %}
+      {% block title %}Editar Medicamento{% endblock %}
       {% block body %}
-      <form class="login-form" action="/anadirmedicamentos2" method="POST">
+      <form class="login-form" action="/editarmedicamento2" method="POST">
         {% with messages = get_flashed_messages() %}
 
         {% if messages %}
@@ -70,7 +70,7 @@
         {% endif %}
 
         {% endwith %}
-        <h1>Anadir Medicamento</h1>
+        <h1>Editar Medicamento</h1>
         <div class="form-floating">
           <input type="text" class="form-control" id="id" name="id" placeholder="ID Medicamento" required>
           <label for="id">ID Medicamento</label>
@@ -96,7 +96,7 @@
           <label for="hospital">Hospital</label>
         </div>        
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-        <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Anadir Medicamento</button>
+        <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Editar Medicamento</button>
 
       </form>
       {% endblock %}
@@ -112,7 +112,7 @@
             <input type="int" id="cantidad_necesaria" name="cantidad_necesaria" required>
             <label for="hospital">Hospital:</label>
             <input type="text" id="hospital" name="hospital" required>
-            <button type="submit">Anadir Medicamento</button>
+            <button type="submit">Editar Medicamento</button>
       </form>
     </body>
   </html>

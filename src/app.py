@@ -125,9 +125,38 @@ def anadirmedicamentos2():
             connection.commit()                
         cursor.close()
         return render_template('confirmaciones.html',)
-
+    
     except Exception as ex:
         return render_template('medicamentos.html')
+    
+@app.route('/editarmedicamento')
+@login_required
+def editarmedicamento():
+    return render_template('editarmedicamento.html')
+
+#EDICION
+
+@app.route('/editarmedicamento2', methods=['POST'])
+@login_required
+def editarmedicamento2():
+    try:
+        id = request.form['id']
+        nombre = request.form['nombre']
+        fecha_vencimiento = request.form['fecha_vencimiento']
+        cantidad_actual = request.form['cantidad_actual']
+        cantidad_necesaria = request.form['cantidad_necesaria']
+        hospital = request.form['hospital']
+
+        with connection.cursor() as cursor:
+                cursor.execute("""UPDATE medicamentos SET id = %s, nombre = %s, fecha_vencimiento = %s, cantidad_actual = %s, cantidad_necesaria = %s, hospital = %s
+                                WHERE id = %s""", (id, nombre, fecha_vencimiento, cantidad_actual, cantidad_necesaria, hospital, id))
+                connection.commit()
+        cursor.close()
+        return render_template('confirmaciones2.html',)
+
+    except Exception as ex:
+        return render_template('editarmedicamento.html')
+
 
 #SOLICITUD DEL MES PARA BUSCAR
 @app.route('/busquedam', methods=['GET', 'POST'])
