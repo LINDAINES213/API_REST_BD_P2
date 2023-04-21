@@ -26,7 +26,7 @@ def load_user(id):
 def index():
     return redirect(url_for('signin'))
 
-
+# LOG IN
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -50,6 +50,7 @@ def login():
     else:
         return render_template('auth/index.html')
     
+#SIGN IN
 @app.route('/signin', methods=['GET','POST'])
 def signin():
     try:
@@ -71,7 +72,7 @@ def signin():
     except Exception as ex:
         return render_template('auth/signin.html')
     
-
+#INICIOS
     
 @app.route('/iniciomedicos')
 @login_required
@@ -88,119 +89,19 @@ def inicioadmin():
 def iniciobodega():
     return render_template('iniciobodega.html')
 
-@app.route('/reportesadministrativos')
-@login_required
-def reportesadministrativos():
-    return render_template('reportesadministrativos.html')
+#FUNCIONES MENU
 
 @app.route('/medicamentos')
 @login_required
 def medicamentos():
     return render_template('medicamentos.html')
 
-@app.route('/expediente')
-@login_required
-def expediente():
-    return render_template('expediente.html')
-
 @app.route('/medicamentos2')
 @login_required
 def medicamentos2():
     return render_template('medicamentos2.html')
 
-@app.route('/traslados')
-@login_required
-def traslados():
-    return render_template('traslados.html')
-
-@app.route('/trasladosT')
-@login_required
-def trasladosT():
-    with connection.cursor() as cursor:
-        cursor.execute("""SELECT t.idtraslado, t.idmedico, m.nombre,  t.hospital_anterior, h.nombre, t.hospital_nuevo, o.nombre, fecha_traslado FROM traslados t
-                        LEFT JOIN medicos m on t.idmedico = m.id_medico
-                        LEFT JOIN hospitales h on t.hospital_anterior = h.codigo 
-						LEFT JOIN hospitales o on t.hospital_nuevo = o.codigo""")
-        rows = cursor.fetchall()
-        return render_template('traslados2.html', rows=rows)
-
-@app.route('/traslados2', methods=['POST'])
-@login_required
-def traslados2():
-    try:
-
-        idtraslado = request.form['idtraslado']
-        idmedico = request.form['idmedico']
-        hospital_anterior = request.form['hospital_anterior']
-        hospital_nuevo = request.form['hospital_nuevo']
-        fecha_traslado = request.form['fecha_traslado']
-
-        with connection.cursor() as cursor:
-            cursor.execute("""INSERT INTO traslados (idtraslado, idmedico, hospital_anterior, hospital_nuevo, fecha_traslado)
-                                    VALUES (%s, %s, %s, %s, %s)""", (idtraslado, idmedico, hospital_anterior, hospital_nuevo, fecha_traslado))
-            connection.commit()
-            with connection.cursor() as cursor:
-                cursor.execute("""SELECT t.idtraslado, t.idmedico, m.nombre,  t.hospital_anterior, h.nombre, t.hospital_nuevo, o.nombre, fecha_traslado FROM traslados t
-                        LEFT JOIN medicos m on t.idmedico = m.id_medico
-                        LEFT JOIN hospitales h on t.hospital_anterior = h.codigo 
-						LEFT JOIN hospitales o on t.hospital_nuevo = o.codigo """)
-                rows = cursor.fetchall()
-            return render_template('traslados2.html', rows=rows)
-    except Exception as ex:
-        return render_template('traslados.html')
-    
-@app.route('/crearusuario', methods=['GET','POST'])
-@login_required
-def crearusuario():
-    try:
-        if request.methods == 'POST':
-            id_medico = request.form['idmedico']
-            dpi = request.form['dpi']
-            nombre = request.form['nombre']
-            telefono = request.form['telefono']
-            direccion = request.form['direccion']
-            num_colegiado = request.form['num_colegiado']
-            especialidades = request.form['especialidades']
-            hospital = request.form['hospital']
-            fecha_contratacion = request.form['fecha_contratacion']
-            correo = request.form['correo']
-            contrasena = request.form['contrasena']
-
-            with connection.cursor() as cursor:
-                cursor.execute("""INSERT INTO medicos (id_medico, dpi, nombre, telefono, direccion, num_colegiado, especialidades, hospital, fecha_contratacion, correo, contrasena)
-                                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""", (id_medico, dpi, nombre, telefono, direccion, num_colegiado, especialidades, hospital, fecha_contratacion, correo, contrasena))
-            return render_template('usuariosT1.html')
-    except Exception as ex:
-        return render_template('crearusuario.html')
-
-@app.route('/bitacora')
-@login_required
-def bitacora():
-    with connection.cursor() as cursor:
-        cursor.execute("""SELECT * FROM bitacora""")
-        rows = cursor.fetchall()
-        return render_template('bitacora.html', rows=rows)
-
-"""@app.route('/bitacora2', methods=['POST'])
-@login_required
-def bitacora2():
-    try:
-    
-        idbitacora = request.form['ID']
-        fechahora = request.form['fechahora']
-        accion  = request.form['accion']
-        nombre_tabla  = request.form['nombre_tabla ']
-
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM bitacora")
-            rows = cursor.fetchall()
-        return render_template('bitacora.html', rows=rows)
-    except Exception as ex:
-        return render_template('home.html')"""
-    
-
-
-
+#SOLICITUD DEL MES PARA BUSCAR
 @app.route('/busquedam', methods=['GET', 'POST'])
 @login_required
 def busquedam():
@@ -223,8 +124,13 @@ def busquedam():
             return render_template('medicamentos.html')
     except Exception as ex:
         return render_template('medicamentos.html')
-    
 
+@app.route('/expediente')
+@login_required
+def expediente():
+    return render_template('expediente.html')
+
+#SOLICITUD DEL DPI PARA BUSCAR E IMPRIME BUSQUEDAS
 @app.route('/busquedaexpedientes', methods=['GET', 'POST'])
 @login_required
 def busquedaexpedientes():
@@ -250,19 +156,121 @@ def busquedaexpedientes():
             return render_template('expediente.html')
     except Exception as ex:
         return render_template('expediente.html')
+
+#MUESTRA LA BITACORA DE CAMBIOS
+@app.route('/bitacora')
+@login_required
+def bitacora():
+    with connection.cursor() as cursor:
+        cursor.execute("""SELECT * FROM bitacora""")
+        rows = cursor.fetchall()
+        return render_template('bitacora.html', rows=rows) 
+    
+###### CREACION Y EDICION ########
+
+@app.route('/usuarios')
+@login_required
+def usuarios():
+    with connection.cursor() as cursor:
+                cursor.execute("""SELECT id_medico, dpi, m.nombre, telefono, direccion, num_colegiado, especialidades, hospital, h.nombre, fecha_contratacion FROM medicos m
+                                LEFT JOIN hospitales h ON m.hospital = h.codigo
+                                ORDER BY id_medico""")
+                rows = cursor.fetchall()
+    return render_template('usuarios.html', rows=rows)
+
+@app.route('/crearusuario')
+@login_required
+def crearusuario():
+    return render_template('crearusuario.html')
+
+@app.route('/usuarios2', methods=['POST'])
+@login_required
+def usuarios2():
+    try:
+        id_medico = request.form['id_medico']
+        dpi = request.form['dpi']
+        nombre = request.form['nombre']
+        telefono = request.form['telefono']
+        direccion = request.form['direccion']
+        num_colegiado = request.form['num_colegiado']
+        especialidades = request.form['especialidades']
+        hospital = request.form['hospital']
+        fecha_contratacion = request.form['fecha_contratacion']
+        correo = request.form['correo']
+        contrasena = request.form['contrasena']
+
+        with connection.cursor() as cursor:
+            cursor.execute("""INSERT INTO medicos VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""", 
+                           (id_medico, dpi, nombre, telefono, direccion, num_colegiado, especialidades, hospital, fecha_contratacion, correo, contrasena))
+            connection.commit()                
+        cursor.close()
+        return render_template('confirmaciones.html',)
+
+    except Exception as ex:
+        return render_template('usuarios.html')
+
+##################################
+
+
+@app.route('/traslados')
+@login_required
+def traslados():
+    return render_template('traslados.html')
+
+#MUESTRA TRASLADOS
+@app.route('/trasladosT')
+@login_required
+def trasladosT():
+    with connection.cursor() as cursor:
+        cursor.execute("""SELECT t.idtraslado, t.idmedico, m.nombre,  t.hospital_anterior, h.nombre, t.hospital_nuevo, o.nombre, fecha_traslado FROM traslados t
+                        LEFT JOIN medicos m on t.idmedico = m.id_medico
+                        LEFT JOIN hospitales h on t.hospital_anterior = h.codigo 
+						LEFT JOIN hospitales o on t.hospital_nuevo = o.codigo""")
+        rows = cursor.fetchall()
+        return render_template('traslados2.html', rows=rows)
+    
+#PIDE DATOS PARA NUEVOS TRASLADOS
+@app.route('/traslados2', methods=['POST'])
+@login_required
+def traslados2():
+    try:
+
+        idtraslado = request.form['idtraslado']
+        idmedico = request.form['idmedico']
+        hospital_anterior = request.form['hospital_anterior']
+        hospital_nuevo = request.form['hospital_nuevo']
+        fecha_traslado = request.form['fecha_traslado']
+
+        with connection.cursor() as cursor:
+            cursor.execute("""INSERT INTO traslados (idtraslado, idmedico, hospital_anterior, hospital_nuevo, fecha_traslado)
+                                    VALUES (%s, %s, %s, %s, %s)""", (idtraslado, idmedico, hospital_anterior, hospital_nuevo, fecha_traslado))
+            connection.commit()
+            with connection.cursor() as cursor:
+                cursor.execute("""SELECT t.idtraslado, t.idmedico, m.nombre,  t.hospital_anterior, h.nombre, t.hospital_nuevo, o.nombre, fecha_traslado FROM traslados t
+                        LEFT JOIN medicos m on t.idmedico = m.id_medico
+                        LEFT JOIN hospitales h on t.hospital_anterior = h.codigo 
+						LEFT JOIN hospitales o on t.hospital_nuevo = o.codigo """)
+                rows = cursor.fetchall()
+            return render_template('traslados2.html', rows=rows)
+    except Exception as ex:
+        return render_template('traslados.html')
     
 
-@app.route('/usuariosT', methods=['GET', 'POST'])
+@app.route('/reportesadministrativos')
 @login_required
-def usuariosT():
+def reportesadministrativos():
+    return render_template('reportesadministrativos.html')
+
+#MUESTRAN LOS REPORTES QUE SE SOLICITEN
+@app.route('/reporte1')
+@login_required
+def reporte1():
     with connection.cursor() as cursor:
-        cursor.execute("""SELECT id_medico, dpi, m.nombre, telefono, direccion, num_colegiado, especialidades, hospital, h.nombre, fecha_contratacion FROM medicos m
-                        LEFT JOIN hospitales h ON m.hospital = h.codigo
-                        ORDER BY id_medico""")
+        cursor.execute("""SELECT nombre, tipo, mortalidad, ubicacion_geografica FROM enfermedades
+                        ORDER BY mortalidad desc
+                        limit 10""")
         rows = cursor.fetchall()
-        return render_template('usuariosT.html', rows=rows)
-
-
+        return render_template('reporte1.html', rows=rows)
 
 @app.route('/reporte2')
 @login_required
@@ -275,16 +283,6 @@ def reporte2():
                         LIMIT 10""")
         rows = cursor.fetchall()
         return render_template('reporte2.html', rows=rows)
-
-@app.route('/reporte1')
-@login_required
-def reporte1():
-    with connection.cursor() as cursor:
-        cursor.execute("""SELECT nombre, tipo, mortalidad, ubicacion_geografica FROM enfermedades
-                        ORDER BY mortalidad desc
-                        limit 10""")
-        rows = cursor.fetchall()
-        return render_template('reporte1.html', rows=rows)
     
 @app.route('/reporte3')
 @login_required
@@ -317,7 +315,8 @@ def reporte5():
                         LIMIT 3""")
         rows = cursor.fetchall()
         return render_template('reporte5.html', rows=rows)
-
+    
+#IDENTIFICA QUE OPCION SE ELIGIO PARA MOSTRAR EL REPORTE
 @app.route('/generarreporte', methods=['POST'])
 @login_required
 def generarreporte():
