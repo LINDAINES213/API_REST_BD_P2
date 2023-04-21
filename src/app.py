@@ -209,6 +209,37 @@ def usuarios2():
     except Exception as ex:
         return render_template('usuarios.html')
 
+@app.route('/editarusuario')
+@login_required
+def editarusuario():
+    return render_template('editarusuario.html')
+
+@app.route('/usuarios3', methods=['POST'])
+@login_required
+def usuarios3():
+    try:
+        id_medico = request.form['id_medico']
+        dpi = request.form['dpi']
+        nombre = request.form['nombre']
+        telefono = request.form['telefono']
+        direccion = request.form['direccion']
+        num_colegiado = request.form['num_colegiado']
+        especialidades = request.form['especialidades']
+        hospital = request.form['hospital']
+        fecha_contratacion = request.form['fecha_contratacion']
+        correo = request.form['correo']
+        contrasena = request.form['contrasena']
+
+        with connection.cursor() as cursor:
+                cursor.execute("""UPDATE medicos SET id_medico = %s, dpi = %s, nombre = %s, telefono = %s, direccion = %s, num_colegiado = %s, especialidades = %s, hospital = %s, fecha_contratacion = %s, correo = %s, contrasena = %s
+                                WHERE id_medico = %s""", (id_medico, dpi, nombre, telefono, direccion, num_colegiado, especialidades, hospital, fecha_contratacion, correo, contrasena, id_medico))
+                connection.commit()
+        cursor.close()
+        return render_template('confirmaciones.html',)
+
+    except Exception as ex:
+        return render_template('usuarios.html')
+
 ##################################
 
 
