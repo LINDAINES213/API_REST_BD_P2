@@ -101,6 +101,34 @@ def medicamentos():
 def medicamentos2():
     return render_template('medicamentos2.html')
 
+@app.route('/anadirmedicamentos')
+@login_required
+def anadirmedicamentos():
+    return render_template('anadirmedicamento.html')
+
+#CREACION
+
+@app.route('/anadirmedicamentos2', methods=['POST'])
+@login_required
+def anadirmedicamentos2():
+    try:
+        id = request.form['id']
+        nombre = request.form['nombre']
+        fecha_vencimiento = request.form['fecha_vencimiento']
+        cantidad_actual = request.form['cantidad_actual']
+        cantidad_necesaria = request.form['cantidad_necesaria']
+        hospital = request.form['hospital']
+
+        with connection.cursor() as cursor:
+            cursor.execute("""INSERT INTO medicamentos VALUES (%s, %s, %s, %s, %s, %s)""", 
+                           (id, nombre, fecha_vencimiento, cantidad_actual, cantidad_necesaria, hospital))
+            connection.commit()                
+        cursor.close()
+        return render_template('confirmaciones.html',)
+
+    except Exception as ex:
+        return render_template('medicamentos.html')
+
 #SOLICITUD DEL MES PARA BUSCAR
 @app.route('/busquedam', methods=['GET', 'POST'])
 @login_required
