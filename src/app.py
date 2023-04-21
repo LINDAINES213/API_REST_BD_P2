@@ -172,10 +172,10 @@ def bitacora():
 @login_required
 def usuarios():
     with connection.cursor() as cursor:
-                cursor.execute("""SELECT id_medico, dpi, m.nombre, telefono, direccion, num_colegiado, especialidades, hospital, h.nombre, fecha_contratacion FROM medicos m
+        cursor.execute("""SELECT id_medico, dpi, m.nombre, telefono, direccion, num_colegiado, especialidades, hospital, h.nombre, fecha_contratacion, correo, contrasena FROM medicos m
                                 LEFT JOIN hospitales h ON m.hospital = h.codigo
                                 ORDER BY id_medico""")
-                rows = cursor.fetchall()
+        rows = cursor.fetchall()
     return render_template('usuarios.html', rows=rows)
 
 @app.route('/crearusuario')
@@ -235,7 +235,7 @@ def usuarios3():
                                 WHERE id_medico = %s""", (id_medico, dpi, nombre, telefono, direccion, num_colegiado, especialidades, hospital, fecha_contratacion, correo, contrasena, id_medico))
                 connection.commit()
         cursor.close()
-        return render_template('confirmaciones.html',)
+        return render_template('confirmaciones2.html',)
 
     except Exception as ex:
         return render_template('usuarios.html')
@@ -258,7 +258,7 @@ def trasladosT():
                         LEFT JOIN hospitales h on t.hospital_anterior = h.codigo 
 						LEFT JOIN hospitales o on t.hospital_nuevo = o.codigo""")
         rows = cursor.fetchall()
-        return render_template('traslados2.html', rows=rows)
+    return render_template('traslados2.html', rows=rows)
     
 #PIDE DATOS PARA NUEVOS TRASLADOS
 @app.route('/traslados2', methods=['POST'])
