@@ -151,6 +151,34 @@ def traslados2():
 
 
 
+@app.route('/Bitacora')
+@login_required
+def trasladosT():
+    with connection.cursor() as cursor:
+        cursor.execute("""SELECT * FROM bitacora""")
+        rows = cursor.fetchall()
+        return render_template('bitacora.html', rows=rows)
+
+@app.route('/Bitacora2', methods=['POST'])
+@login_required
+def traslados2():
+    try:
+    
+        idbitacora = request.form['ID']
+        fechahora = request.form['fechahora']
+        accion  = request.form['accion']
+        nombre_tabla  = request.form['nombre_tabla ']
+
+        with connection.cursor() as cursor:
+            cursor.execute("""SELECT * FROM bitacora""")
+            rows = cursor.fetchall()
+        return render_template('bitacora.html', rows=rows)
+    except Exception as ex:
+        return render_template('home.html')
+    
+
+
+
 @app.route('/busquedam', methods=['GET', 'POST'])
 @login_required
 def busquedam():
