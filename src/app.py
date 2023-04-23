@@ -6,10 +6,8 @@ from datetime import datetime, timedelta
 
 from config import config
 
-# Models:
 from models.ModelUser import ModelUser
 
-# Entities:
 from models.entities.User import User
 
 app = Flask(__name__)
@@ -261,7 +259,6 @@ def editarexpediente():
     return render_template('editarexpediente.html')
 
 #EDICION
-
 @app.route('/editarexpediente2', methods=['POST'])
 @login_required
 def editarexpediente2():
@@ -476,7 +473,8 @@ def reporte3():
 def reporte4():
     with connection.cursor() as cursor:
         cursor.execute("""SELECT nombre, cantidad_actual, hospital FROM medicamentos
-                        WHERE cantidad_actual <= 15;""")
+                        WHERE cantidad_actual <= 15
+                        ORDER BY cantidad_actual ASC;""")
         rows = cursor.fetchall()
         return render_template('reporte4.html', rows=rows)
 
