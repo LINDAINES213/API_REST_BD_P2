@@ -43,6 +43,10 @@ config = {
     'development': DevelopmentConfig
 }
 ```
+`Creando el entorno virtual`: Dentro de la carpeta del proyecto, puede ser dentro de la terminal de Visual Studio Code o desde el cmd de su computadora, escriba el siguiente comando para crear el entorno virtual que va a utilizar para correr el programa:
+```bash
+virtualenv venv 
+```
 `Corriendo el programa`: Al tener la base de datos ya configurada con la API correctamente deberria de dejar que se pueda correr, por lo que en Visual Studio Code se abre el proyecto y se abre una nueva terminal, de preferencia que sea de tipo Command Prompt y correr los siquientes comandos:
 ```bash
 .\venv\Scripts\activate #Para activar el entorno virtual
