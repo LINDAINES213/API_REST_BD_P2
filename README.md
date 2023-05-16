@@ -2,7 +2,7 @@
 
 ## 💻 Creando una aplicación web para la visualización y manejo de bases de datos
 
-Para este proyecto se realizo una aplicación web utilizando Python y Flask con algunas de sus extensiones y HTML y CSS para la construcción de las páginas a mostrar en la web para la visualizacion y manejo de bases de datos en PostgreSQL. <br>
+Para este proyecto se realizo una aplicación web utilizando Python y Flask con algunas de sus extensiones y HTML y CSS para la construcción de las páginas a mostrar en la web para la visualizacion y manejo de bases de datos en PostgreSQL. <br><br>
 Video de como funciona la aplicacion: https://drive.google.com/file/d/1b461yfjPNCawR5vm8zQ08teqe9ZNMOJe/view?usp=sharing
 
 ## 👩‍💻 Proceso para correr la aplicación desde tu dispositivo
