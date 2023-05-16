@@ -50,7 +50,7 @@ config = {
 ```bash
 python .\src\app.py #Para correr la API
 ```
-Con esto la terminal deberia de mostrarse asi <br>
+Con esto la terminal deberia de mostrarse asi <br><br>
 ![image_2023-05-16_150245050](https://github.com/LINDAINES213/API_REST_BD_P2/assets/77686175/811acd93-475e-494a-a4aa-467bbfa35058) <br><br>
 Donde se muestra el link donde se esta corriendo la aplicacion web y se puede visualizar, el caso de la fotografia es este
 ```bash
