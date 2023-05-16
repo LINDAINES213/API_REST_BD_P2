@@ -2,7 +2,8 @@
 
 ## 💻 Creando una aplicación web para la visualización y manejo de bases de datos
 
-Para este proyecto se realizo una aplicación web utilizando Python y Flask con algunas de sus extensiones y HTML y CSS para la construcción de las páginas a mostrar en la web para la visualizacion y manejo de bases de datos en PostgreSQL.
+Para este proyecto se realizo una aplicación web utilizando Python y Flask con algunas de sus extensiones y HTML y CSS para la construcción de las páginas a mostrar en la web para la visualizacion y manejo de bases de datos en PostgreSQL. <br>
+Video de como funciona la aplicacion: https://drive.google.com/file/d/1b461yfjPNCawR5vm8zQ08teqe9ZNMOJe/view?usp=sharing
 
 ## 👩‍💻 Proceso para correr la aplicación desde tu dispositivo
 
@@ -10,7 +11,7 @@ Para este proyecto se realizo una aplicación web utilizando Python y Flask con 
 ```bash
 pip install virtualenv
 ```
-Si deseas confirmar que este se installo correctamente corre el comando a continuación y te debería de mostrar `virtualenv==20.21.0` en la lista. (La version dependera de la fecha en que lo hayas instalado.
+Si deseas confirmar que este se installo correctamente corre el comando a continuación y te debería de mostrar `virtualenv==20.21.0` en la lista. (La version dependera de la fecha en que lo hayas instalado).
 ```bash
 pip freeze
 ```
@@ -49,7 +50,7 @@ config = {
 ```bash
 python .\src\app.py #Para correr la API
 ```
-Con esto la terminal deberia de mostrarse asi 
+Con esto la terminal deberia de mostrarse asi <br>
 ![image_2023-05-16_150245050](https://github.com/LINDAINES213/API_REST_BD_P2/assets/77686175/811acd93-475e-494a-a4aa-467bbfa35058) <br><br>
 Donde se muestra el link donde se esta corriendo la aplicacion web y se puede visualizar, el caso de la fotografia es este
 ```bash
