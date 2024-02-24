@@ -1,14 +1,14 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_wtf.csrf import CSRFProtect
 from flask_login import LoginManager, login_user, logout_user, login_required
-from database.db import get_connection
+from src.database.db import get_connection
 from datetime import datetime, timedelta
 
 from config import config
 
-from models.ModelUser import ModelUser
+from src.models.ModelUser import ModelUser
 
-from models.entities.User import User
+from src.models.entities.User import User
 
 app = Flask(__name__)
 
